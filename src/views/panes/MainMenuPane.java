@@ -39,6 +39,7 @@ public class MainMenuPane extends GamePane {
     @Override
     void connectComponents() {
         // TODO
+        container.getChildren().addAll(title, levelSelectButton,levelEditorButton,settingsButton,quitButton);
     }
 
     /**
