@@ -56,5 +56,6 @@ public class MainMenuPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
+
     }
 }
