@@ -65,7 +65,15 @@ public class AudioManager {
      * @param name the name of the sound file to be played, excluding .mp3
      */
     private void playFile(final String name) {
-        // TODO
+        // TODO done
+        if(!isEnabled()){
+            return;
+        }
+        Media sound = new Media(name);
+        MediaPlayer mp = new MediaPlayer(sound);
+        soundPool.add(mp);
+        mp.setOnEndOfMedia(() -> soundPool.remove(mp));
+        mp.play();
     }
 
     /**
