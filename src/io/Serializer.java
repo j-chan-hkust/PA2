@@ -31,8 +31,7 @@ public class Serializer {
      */
     public void serializeGameProp(@NotNull final GameProperties prop) throws IOException {
         // TODO done
-        try{
-            PrintWriter pw = new PrintWriter(path.toFile());
+        try(PrintWriter pw = new PrintWriter(path.toFile())){
             pw.println(prop.rows);
             pw.println(prop.cols);
             pw.println(prop.delay);
@@ -46,7 +45,6 @@ public class Serializer {
                 pw.print(pipe.toSerializedRep());
             }
             pw.println();
-            pw.close();
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -65,7 +65,8 @@ public class LevelManager {
      * @param mapDirectory New map directory to load maps from.
      */
     public void setMapDirectory(@NotNull Path mapDirectory) {
-        // TODO
+        // TODO done
+        INSTANCE.mapDirectory = mapDirectory;
     }
 
     /**
@@ -82,7 +83,21 @@ public class LevelManager {
      * </p>
      */
     private void loadLevelNamesFromDisk() {
-        // TODO
+        // TODO done?
+        try(Stream<Path> stream = Files.walk(INSTANCE.mapDirectory, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)){
+            //filter
+            //map
+            //sort
+            List<String> list = stream
+                    .filter(path -> path.endsWith(".map"))
+                    .map(Path::toString)
+                    .sorted()
+                    .collect(Collectors.toList());
+            levelNames.addAll(list);
+        }catch (IOException e){
+            e.printStackTrace();
+            return;
+        }
     }
 
     @NotNull
@@ -95,8 +110,9 @@ public class LevelManager {
      */
     @NotNull
     public Path getCurrentLevelPath() {
-        // TODO
-        return null;
+        // TODO done
+        Path path = Path.of(curLevelNameProperty.toString());
+        return path;
     }
 
     /**
@@ -105,8 +121,13 @@ public class LevelManager {
      * @param levelName Name of the newly selected level, or {@code null} if a level is not loaded.
      * @throws IllegalArgumentException When the level name is blank.
      */
-    public void setLevel(@Nullable String levelName) {
-        // TODO
+    public void setLevel(@Nullable String levelName) throws IllegalArgumentException{
+        // TODO done
+        if (levelName.isBlank()){
+            throw new IllegalStateException();
+        }else {
+            curLevelNameProperty.set(levelName);
+        }
     }
 
     /**
@@ -125,8 +146,26 @@ public class LevelManager {
      */
     @Nullable
     public String getAndSetNextLevel() {
-        // TODO
-        return null;
+        // TODO done
+        if(getCurrentLevelProperty().toString()==null){
+            setLevel(null);
+            return null; //no map has been set, so there is no next map!
+        }
+
+        if(INSTANCE.levelNames.contains(getCurrentLevelProperty().toString())){
+            //if last element, and index too big
+            int currIndex = INSTANCE.levelNames.indexOf(getCurrentLevelProperty().toString());
+            if(currIndex==INSTANCE.levelNames.size()-1){
+                setLevel(null);
+                return null; //there are no more indices to search!
+            }else{
+                setLevel(INSTANCE.levelNames.get(currIndex+1));
+                return INSTANCE.levelNames.get(currIndex+1);
+            }
+        } else {
+            setLevel(null);
+            return null;
+        }
     }
 
     @NotNull
