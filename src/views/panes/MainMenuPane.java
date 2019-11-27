@@ -38,8 +38,9 @@ public class MainMenuPane extends GamePane {
      */
     @Override
     void connectComponents() {
-        // TODO
+        // TODO done i think?
         container.getChildren().addAll(title, levelSelectButton,levelEditorButton,settingsButton,quitButton);
+        this.setCenter(container);
     }
 
     /**
@@ -56,6 +57,5 @@ public class MainMenuPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
-
     }
 }
