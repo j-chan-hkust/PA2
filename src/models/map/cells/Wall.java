@@ -30,8 +30,8 @@ public class Wall extends Cell {
     @NotNull
     @Override
     public Renderer.CellImage getImageRep() {
-        // TODO
-        return null;
+        // TODO DONE!
+        return new Renderer.CellImage(IMAGE, 0);
     }
 
     @NotNull

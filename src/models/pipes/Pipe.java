@@ -156,8 +156,46 @@ public class Pipe implements MapElement {
          * @throws IllegalStateException When {@code this} is not a known pipe shape.
          */
         @NotNull Renderer.CellImage getCellImage(boolean isFilled) {
-            // TODO
-            return null;
+            // TODO done
+            switch(rep){
+                case "HZ":
+                    if(isFilled)
+                        return new Renderer.CellImage(STRAIGHT_FILLED,90);
+                    else
+                        return new Renderer.CellImage(STRAIGHT_UNFILLED,90);
+                case "VT":
+                    if(isFilled)
+                        return new Renderer.CellImage(STRAIGHT_FILLED,0);
+                    else
+                        return new Renderer.CellImage(STRAIGHT_UNFILLED,0);
+                case "TL":
+                    if(isFilled)
+                        return new Renderer.CellImage(CORNER_FILLED,0);
+                    else
+                        return new Renderer.CellImage(CORNER_UNFILLED,0);
+                case "TR":
+                    if(isFilled)
+                        return new Renderer.CellImage(CORNER_FILLED,90);
+                    else
+                        return new Renderer.CellImage(CORNER_UNFILLED,90);
+                case "BL":
+                    if(isFilled)
+                        return new Renderer.CellImage(CORNER_FILLED,-90);
+                    else
+                        return new Renderer.CellImage(CORNER_UNFILLED,-90);
+                case "BR":
+                    if(isFilled)
+                        return new Renderer.CellImage(CORNER_FILLED,180);
+                    else
+                        return new Renderer.CellImage(CORNER_UNFILLED,180);
+                case "CR":
+                    if(isFilled)
+                        return new Renderer.CellImage(CROSS_FILLED,0);
+                    else
+                        return new Renderer.CellImage(CROSS_UNFILLED,0);
+                default:
+                    throw new IllegalStateException();
+            }
         }
     }
 }
