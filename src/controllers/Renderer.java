@@ -70,7 +70,11 @@ public class Renderer {
      * @param y     Y-coordinate relative to the graphics context to draw the top-left of the image.
      */
     private static void drawRotatedImage(@NotNull GraphicsContext gc, @NotNull Image image, double angle, double x, double y) {
-        // TODO
+        // TODO done?
+        gc.save(); // saves the current state on stack, including the current transform
+        rotate(gc, angle, x + image.getWidth() / 2, y + image.getHeight() / 2); //rotates around the center
+        gc.drawImage(image, x, y);
+        gc.restore(); // back to original state (before rotation)
     }
 
     /**
@@ -81,6 +85,12 @@ public class Renderer {
      */
     public static void renderMap(@NotNull Canvas canvas, @NotNull Cell[][] map) {
         // TODO
+        for(int i = 0; i<map.length; i++){
+            for(int j = 0; j<map[0].length;j++){
+                //drawRotatedImage(canvas.getGraphicsContext2D(),
+
+            }
+        }
     }
 
     /**
