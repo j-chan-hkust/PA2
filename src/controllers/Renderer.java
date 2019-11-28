@@ -84,11 +84,13 @@ public class Renderer {
      * @param map    Map to render.
      */
     public static void renderMap(@NotNull Canvas canvas, @NotNull Cell[][] map) {
-        // TODO
+        // TODO done
         for(int i = 0; i<map.length; i++){
             for(int j = 0; j<map[0].length;j++){
-                //drawRotatedImage(canvas.getGraphicsContext2D(),
-
+                drawRotatedImage(canvas.getGraphicsContext2D(),
+                        map[i][j].getImageRep().image,
+                        map[i][j].getImageRep().rotation,
+                        i*TILE_SIZE, j*TILE_SIZE);
             }
         }
     }
@@ -100,6 +102,12 @@ public class Renderer {
      * @param pipeQueue Pipe queue to render.
      */
     public static void renderQueue(@NotNull Canvas canvas, @NotNull List<Pipe> pipeQueue) {
-        // TODO
+        // TODO done
+        for(int i = 0; i<pipeQueue.size(); i++){
+            drawRotatedImage(canvas.getGraphicsContext2D(),
+                    pipeQueue.get(i).getImageRep().image,
+                    pipeQueue.get(i).getImageRep().rotation,
+                    i*(TILE_SIZE+QUEUE_TILE_PADDING),0);
+        }
     }
 }
