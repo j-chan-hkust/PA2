@@ -437,7 +437,9 @@ public class Map {
      * Fills the source and sink tiles, as well as any tiles which can be reached from the source tile.
      */
     public void fillAll() {
-        // TODO
+        // TODO done lol
+        sinkCell.setFilled();
+        fillTiles(Integer.MAX_VALUE); //very lazy haha
     }
 
     /**
