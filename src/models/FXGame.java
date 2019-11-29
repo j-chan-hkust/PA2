@@ -85,8 +85,10 @@ public class FXGame {
      * @param cols Number of columns (excluding side walls)
      */
     private FXGame(int rows, int cols) {
-        // TODO
-        this(rows, cols, 0, null, null);
+        // TODO done
+        map = new Map(rows,cols);
+        pipeQueue = new PipeQueue();
+        flowTimer = new FlowTimer();
     }
 
     /**
@@ -99,10 +101,10 @@ public class FXGame {
      * @param pipes Initial pipes, if provided.
      */
     public FXGame(int rows, int cols, int delay, @NotNull Cell[][] cells, @Nullable List<Pipe> pipes) {
-        // TODO
-        map = null;
-        pipeQueue = null;
-        flowTimer = null;
+        // TODO done
+        map = new Map(rows, cols, cells);
+        pipeQueue = new PipeQueue(pipes);
+        flowTimer = new FlowTimer(delay);
     }
 
     /**
@@ -143,21 +145,40 @@ public class FXGame {
      * @see Game#placePipe(int, char)
      */
     public void placePipe(int row, int col) {
-        // TODO
+        // TODO done
+        var coord = new Coordinate(row,col);
+        var pipe = pipeQueue.peek();
+        if(map.tryPlacePipe(coord,pipe)){
+           pipeQueue.consume();
+           cellStack.push(new FillableCell(coord,pipe));
+           numOfSteps.setValue(numOfSteps.intValue()+1);
+        }
     }
 
     /**
      * @see Game#skipPipe()
      */
     public void skipPipe() {
-        // TODO
+        // TODO done
+        numOfSteps.setValue(numOfSteps.get()+1);
+        pipeQueue.consume();
     }
 
     /**
      * @see Game#undoStep()
      */
     public void undoStep() {
-        // TODO
+        // TODO done!
+        FillableCell undoCell = cellStack.pop();//this increments undocount
+        if(undoCell != null){
+            if(undoCell.getPipe().get().getFilled()){
+                cellStack.push(undoCell);
+                return;
+            }
+            pipeQueue.undo(undoCell.getPipe().get());
+            map.undo(undoCell.coord);
+            numOfSteps.setValue(numOfSteps.intValue()+1);
+        }
     }
 
     /**
@@ -182,23 +203,33 @@ public class FXGame {
      * @see Game#updateState()
      */
     public void updateState() {
-        // TODO
+        // TODO done
+        if (flowTimer.distance()==0){
+            map.fillBeginTile();
+            map.fillTiles(flowTimer.distance());
+        }else if(flowTimer.distance()>0){
+            map.fillTiles(flowTimer.distance());
+        }
     }
 
     /**
      * @see Game#updateState()
      */
     public boolean hasWon() {
-        // TODO
-        return false;
+        // TODO done
+        return map.checkPath();
     }
 
     /**
      * @see Game#hasLost()
      */
     public boolean hasLost() {
-        // TODO
-        return false;
+        // TODO done
+        if (flowTimer.distance()<=0){
+            return false;
+        }else{
+            return map.hasLost();
+        }
     }
 
     /**
