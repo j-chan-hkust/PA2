@@ -114,7 +114,8 @@ public class PipeQueue {
      * @param canvas Canvas to render to.
      */
     public void render(@NotNull Canvas canvas) {
-        // TODO
+        // TODO done
+        Renderer.renderQueue(canvas, this.pipeQueue);
     }
 
     /**
