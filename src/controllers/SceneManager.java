@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import views.panes.*;
 
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -62,7 +63,14 @@ public class SceneManager {
     private Stage stage;
 
     private SceneManager() {
-        // TODO: Add CSS styles to every scene
+        // TODO: Add CSS styles to every scene done?????????
+        Iterator it = scenes.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry pair = (Map.Entry)it.next();
+            var scene = (Scene) pair.getValue();
+            scene.getStylesheets().add(ResourceLoader.getResource("styles/styles.css"));
+            it.remove();
+        }
     }
 
     /**
@@ -100,7 +108,8 @@ public class SceneManager {
      * @throws IllegalArgumentException If the {@code pane} is not known.
      */
     public void showPane(@NotNull final Class<? extends GamePane> pane) {
-        // TODO
+        // TODO done?
+        showScene(scenes.get(pane));
     }
 
     /**
