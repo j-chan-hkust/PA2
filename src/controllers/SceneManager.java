@@ -64,7 +64,7 @@ public class SceneManager {
 
     private SceneManager() {
         // TODO: Add CSS styles to every scene done?????????
-        Iterator it = scenes.entrySet().iterator();
+        Iterator it = INSTANCE.scenes.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pair = (Map.Entry)it.next();
             var scene = (Scene) pair.getValue();
