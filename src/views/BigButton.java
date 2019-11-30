@@ -21,6 +21,8 @@ public class BigButton extends Button {
     }
 
     {
-        // TODO: Add "big-button" style
+        // TODO: Add "big-button" style done?
+        this.getStylesheets().add(getClass().getResource("../resources/assets/styles/styles.css").toExternalForm());
+
     }
 }

@@ -37,7 +37,14 @@ public class NumberTextField extends TextField {
      * @return True if the text either contains an Integer or is blank.
      */
     private boolean validate(@NotNull String text) {
-        // TODO
+        // TODO done
+        if (text != null && !text.isEmpty()) {
+            for (char c : text.toCharArray()) {
+                if (!Character.isDigit(c)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -46,7 +53,13 @@ public class NumberTextField extends TextField {
      * @throws NumberFormatException If {@link NumberTextField#getCharacters()} cannot be parsed into an integer.
      */
     public int getValue() {
-        // TODO
-        return 0;
+        // TODO done
+        int i = 0;
+        try{
+            i = Integer.parseInt(this.getText());
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        return i;
     }
 }

@@ -19,7 +19,10 @@ public class GameplayInfoPane extends BigVBox {
     private final Label numUndoLabel = new Label();
 
     public GameplayInfoPane(StringProperty levelNameProperty, IntegerProperty timerProperty, IntegerProperty numMovesProperty, IntegerProperty numUndoProperty) {
-        // TODO
+        // TODO done?
+        //
+        this.getChildren().addAll(levelNameLabel,timerLabel,numMovesLabel,numUndoLabel);
+        bindTo(levelNameProperty,timerProperty,numMovesProperty,numUndoProperty);
     }
 
     /**
@@ -46,6 +49,10 @@ public class GameplayInfoPane extends BigVBox {
      * @param numUndoProperty Number of Undoes Property
      */
     private void bindTo(StringProperty levelNameProperty, IntegerProperty timerProperty, IntegerProperty numMovesProperty, IntegerProperty numUndoProperty) {
-        // TODO
+        // TODO done
+        levelNameLabel.textProperty().bind(Bindings.createStringBinding(()->"Level: "+ levelNameProperty.get(),levelNameProperty));
+        timerLabel.textProperty().bind(Bindings.createStringBinding(()-> "Time: " + format(timerProperty.get()),timerProperty));
+        numMovesLabel.textProperty().bind(Bindings.createStringBinding(()-> "Moves: " + format(numMovesProperty.get()),numMovesProperty));
+        numUndoLabel.textProperty().bind(Bindings.createStringBinding(()-> "Undos: " + format(numUndoProperty.get()),numUndoProperty));
     }
 }

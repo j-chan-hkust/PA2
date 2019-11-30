@@ -29,7 +29,7 @@ public class BigVBox extends VBox {
     }
 
     {
-        // TODO: Add "big-vbox" style
-        this.getStylesheets().add("../resources/assets/styles/styles.css");
+        // TODO: Add "big-vbox" style done?
+        this.getStylesheets().add(getClass().getResource("../resources/assets/styles/styles.css").toExternalForm());
     }
 }

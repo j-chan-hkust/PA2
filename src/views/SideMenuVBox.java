@@ -25,5 +25,6 @@ public class SideMenuVBox extends VBox {
 
     {
         // TODO: Add "side-menu" styling
+        this.getStylesheets().add(getClass().getResource("../resources/assets/styles/styles.css").toExternalForm());
     }
 }
