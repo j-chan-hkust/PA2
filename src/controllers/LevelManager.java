@@ -66,7 +66,8 @@ public class LevelManager {
      */
     public void setMapDirectory(@NotNull Path mapDirectory) {
         // TODO done
-        INSTANCE.mapDirectory = mapDirectory;
+        this.mapDirectory = mapDirectory;
+        loadLevelNamesFromDisk();
     }
 
     /**
@@ -84,7 +85,7 @@ public class LevelManager {
      */
     private void loadLevelNamesFromDisk() {
         // TODO done?
-        try(Stream<Path> stream = Files.walk(INSTANCE.mapDirectory, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)){
+        try(Stream<Path> stream = Files.walk(this.mapDirectory, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)){
             //filter
             //map
             //sort

@@ -1,5 +1,6 @@
 package views;
 
+import controllers.ResourceLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
@@ -30,6 +31,6 @@ public class BigVBox extends VBox {
 
     {
         // TODO: Add "big-vbox" style done?
-        this.getStylesheets().add(getClass().getResource("../resources/assets/styles/styles.css").toExternalForm());
+        this.getStyleClass().add("big-vbox");
     }
 }
