@@ -2,8 +2,10 @@ package views.panes;
 
 import controllers.SceneManager;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 import views.BigButton;
@@ -56,6 +58,11 @@ public class MainMenuPane extends GamePane {
      */
     @Override
     void setCallbacks() {
-        // TODO
+        // TODO done!
+        levelSelectButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(GameplayPane.class));
+        levelEditorButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(LevelEditorPane.class));
+        settingsButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(SettingsPane.class));
+        quitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
+
     }
 }
