@@ -4,6 +4,7 @@ import controllers.LevelManager;
 import controllers.SceneManager;
 import io.Deserializer;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ListView;
 import javafx.stage.DirectoryChooser;
@@ -37,7 +38,11 @@ public class LevelSelectPane extends GamePane {
      */
     @Override
     void connectComponents() {
-        // TODO
+        // TODO done
+        leftContainer.getChildren().addAll(returnButton,chooseMapDirButton,levelsListView,playButton,playRandom);
+        centerContainer.getChildren().add(levelPreview);
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer); //maybe change?
     }
 
     /**
@@ -45,7 +50,8 @@ public class LevelSelectPane extends GamePane {
      */
     @Override
     void styleComponents() {
-        // TODO
+        // TODO done?
+        leftContainer.getStyleClass().add("side-menu");
     }
 
     /**
@@ -53,7 +59,9 @@ public class LevelSelectPane extends GamePane {
      */
     @Override
     void setCallbacks() {
-        // TODO
+        // TODO not done
+        returnButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
+        playRandom.setOnMouseClicked(mouseEvent -> startGame(true));
     }
 
     /**
@@ -67,7 +75,12 @@ public class LevelSelectPane extends GamePane {
      * @param generateRandom Whether to use a generated map.
      */
     private void startGame(final boolean generateRandom) {
-        // TODO
+        // TODO done for the basic case
+        if(generateRandom){
+            FXGame newGame = new FXGame(); //make a default
+            ((GameplayPane)SceneManager.getInstance().getPane(GameplayPane.class)).startGame(newGame);
+            SceneManager.getInstance().showPane(GameplayPane.class);
+        }
     }
 
     /**
