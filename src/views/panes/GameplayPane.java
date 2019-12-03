@@ -24,6 +24,7 @@ import views.BigVBox;
 import views.GameplayInfoPane;
 
 import java.io.FileNotFoundException;
+import java.util.Optional;
 
 import static models.Config.TILE_SIZE;
 
@@ -78,7 +79,7 @@ public class GameplayPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
-        quitToMenuButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(LevelSelectPane.class));
+        quitToMenuButton.setOnMouseClicked(mouseEvent -> doQuitToMenuAction());
         gameplayCanvas.setOnMouseClicked(mouseEvent -> onCanvasClicked(mouseEvent));
         this.setOnKeyPressed(keyEvent -> onKeyPressed(keyEvent));
     }
@@ -147,6 +148,14 @@ public class GameplayPane extends GamePane {
      */
     private void doQuitToMenuAction() {
         // TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Quit current game?");
+        alert.setContentText("you will quit this very fun game!");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK)
+            doQuitToMenu();
+        return;
     }
 
     /**
@@ -154,6 +163,8 @@ public class GameplayPane extends GamePane {
      */
     private void doQuitToMenu() {
         // TODO
+        endGame();
+        SceneManager.getInstance().showPane(LevelSelectPane.class);
     }
 
     /**
@@ -170,6 +181,7 @@ public class GameplayPane extends GamePane {
                 ticksElapsed,
                 game.getNumOfSteps(),
                 game.getNumOfUndo());
+        topBar.getChildren().clear();
         topBar.getChildren().add(infoPane);
         game.startCountdown();
     }

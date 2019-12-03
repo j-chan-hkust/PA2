@@ -87,6 +87,7 @@ public class LevelSelectPane extends GamePane {
         // TODO done for the basic case
         if(generateRandom){
             FXGame newGame = new FXGame(); //make a default
+            LevelManager.getInstance().setLevel("<Generated>");
             ((GameplayPane)SceneManager.getInstance().getPane(GameplayPane.class)).startGame(newGame);
             SceneManager.getInstance().showPane(GameplayPane.class);
         }else{
