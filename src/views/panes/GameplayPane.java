@@ -79,6 +79,8 @@ public class GameplayPane extends GamePane {
     void setCallbacks() {
         // TODO
         quitToMenuButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(LevelSelectPane.class));
+        gameplayCanvas.setOnMouseClicked(mouseEvent -> onCanvasClicked(mouseEvent));
+        this.setOnKeyPressed(keyEvent -> onKeyPressed(keyEvent));
     }
 
     /**
@@ -88,6 +90,13 @@ public class GameplayPane extends GamePane {
      */
     private void onCanvasClicked(MouseEvent event) {
         // TODO
+        int j = (int) Math.floor(event.getX()/TILE_SIZE);
+        int i = (int) Math.floor(event.getY()/TILE_SIZE);
+
+        game.placePipe(i,j);
+        game.renderMap(gameplayCanvas);
+        game.renderQueue(queueCanvas);
+
     }
 
     /**
@@ -97,6 +106,19 @@ public class GameplayPane extends GamePane {
      */
     private void onKeyPressed(KeyEvent event) {
         // TODO
+        System.out.println(event.getText());
+        switch (event.getText()){
+            case "s":
+                game.skipPipe();
+                game.renderQueue(queueCanvas);
+                break;
+            case "u":
+                game.undoStep();
+                game.renderQueue(queueCanvas);
+                game.renderMap(gameplayCanvas);
+                break;
+
+        }
     }
 
     /**
@@ -141,9 +163,15 @@ public class GameplayPane extends GamePane {
      */
     void startGame(@NotNull FXGame game) {
         // TODO
+        this.game = game;
         game.renderMap(gameplayCanvas);
         game.renderQueue(queueCanvas);
-
+        infoPane = new GameplayInfoPane(LevelManager.getInstance().getCurrentLevelProperty(),
+                ticksElapsed,
+                game.getNumOfSteps(),
+                game.getNumOfUndo());
+        topBar.getChildren().add(infoPane);
+        game.startCountdown();
     }
 
     /**
