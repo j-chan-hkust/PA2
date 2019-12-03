@@ -61,7 +61,6 @@ public class GameplayPane extends GamePane {
         this.setTop(topBar);
         this.setCenter(canvasContainer);
         this.setBottom(bottomBar);
-        //System.out.println("cool");
     }
 
     /**
@@ -78,7 +77,7 @@ public class GameplayPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
-        quitToMenuButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
+        quitToMenuButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(LevelSelectPane.class));
     }
 
     /**

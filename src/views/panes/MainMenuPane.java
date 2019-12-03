@@ -59,7 +59,7 @@ public class MainMenuPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO done!
-        levelSelectButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(GameplayPane.class));
+        levelSelectButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(LevelSelectPane.class));
         levelEditorButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(LevelEditorPane.class));
         settingsButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(SettingsPane.class));
         quitButton.setOnMouseClicked(mouseEvent -> System.exit(0));

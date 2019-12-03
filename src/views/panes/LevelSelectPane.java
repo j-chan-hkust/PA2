@@ -1,8 +1,10 @@
 package views.panes;
 
 import controllers.LevelManager;
+import controllers.Renderer;
 import controllers.SceneManager;
 import io.Deserializer;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +17,7 @@ import views.SideMenuVBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 
 public class LevelSelectPane extends GamePane {
 
@@ -62,6 +65,11 @@ public class LevelSelectPane extends GamePane {
         // TODO not done
         returnButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
         playRandom.setOnMouseClicked(mouseEvent -> startGame(true));
+        chooseMapDirButton.setOnMouseClicked(mouseEvent -> promptUserForMapDirectory());
+        levelsListView.setOnMouseClicked(mouseEvent ->
+                onMapSelected(LevelManager.getInstance().getCurrentLevelProperty(),
+                        "",
+                        levelsListView.getSelectionModel().getSelectedItem()));
     }
 
     /**
@@ -92,6 +100,25 @@ public class LevelSelectPane extends GamePane {
      */
     private void onMapSelected(ObservableValue<? extends String> observable, String oldValue, String newValue) {
         // TODO
+        System.out.println(newValue); //dum.map
+        if(observable.getValue()==null){//we haven't set currentlevel
+            LevelManager.getInstance().setLevel(newValue);
+            oldValue ="";
+        }else{
+            oldValue = observable.getValue();
+        }
+
+        if(oldValue==newValue){
+            return; //they're the same, we dont have to do anything
+        }else{
+            LevelManager.getInstance().setLevel(newValue);
+            try{
+                Deserializer d = new Deserializer(LevelManager.getInstance().getCurrentLevelPath());
+                Platform.runLater(() -> Renderer.renderMap(levelPreview, d.parseGameFile().cells));
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -103,7 +130,16 @@ public class LevelSelectPane extends GamePane {
      * </p>
      */
     private void promptUserForMapDirectory() {
-        // TODO
+        // TODO done
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory =
+                directoryChooser.showDialog(null);
+
+        if(selectedDirectory == null){
+            return;
+        }else{
+            commitMapDirectoryChange(selectedDirectory);
+        }
     }
 
     /**
@@ -112,6 +148,9 @@ public class LevelSelectPane extends GamePane {
      * @param dir New directory to change to.
      */
     private void commitMapDirectoryChange(File dir) {
-        // TODO
+        // TODO done? theres some weird behavior, need to look into it!
+        LevelManager.getInstance().setMapDirectory(dir.toPath());
+        LevelManager.getInstance().getLevelNames().forEach(System.out::println);
+        levelsListView.getItems().addAll(LevelManager.getInstance().getLevelNames());
     }
 }

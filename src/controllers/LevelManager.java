@@ -85,13 +85,16 @@ public class LevelManager {
      */
     private void loadLevelNamesFromDisk() {
         // TODO done?
-        try(Stream<Path> stream = Files.walk(this.mapDirectory, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)){
+        levelNames.clear();
+        try(Stream<Path> walk = Files.walk(this.mapDirectory, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)){
             //filter
             //map
             //sort
-            List<String> list = stream
+            List<String> list = walk.filter(Files::isRegularFile)
+                    .map(path -> path.toString())
+                    .map(path -> path.replace(this.mapDirectory.toString()+"\\",""))
                     .filter(path -> path.endsWith(".map"))
-                    .map(Path::toString)
+                    .distinct()
                     .sorted()
                     .collect(Collectors.toList());
             levelNames.addAll(list);
@@ -112,7 +115,7 @@ public class LevelManager {
     @NotNull
     public Path getCurrentLevelPath() {
         // TODO done
-        Path path = Path.of(curLevelNameProperty.toString());
+        Path path = Path.of(mapDirectory+"\\"+curLevelNameProperty.get()).toAbsolutePath();
         return path;
     }
 
