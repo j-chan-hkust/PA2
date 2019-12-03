@@ -104,8 +104,8 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void setTile(@NotNull CellSelection sel, double x, double y) {
         // TODO done
-        int i = (int) Math.floor(x/TILE_SIZE);
-        int j = (int) Math.floor(y/TILE_SIZE);
+        int j = (int) Math.floor(x/TILE_SIZE);
+        int i = (int) Math.floor(y/TILE_SIZE);
 
         switch(sel){
             case WALL:
@@ -120,7 +120,7 @@ public class LevelEditorCanvas extends Canvas {
                     boolean set = false;
 
                     if(i==0){
-                        direction = Direction.LEFT;
+                        direction = Direction.UP;
                         set = true;
                     }
 
@@ -128,20 +128,20 @@ public class LevelEditorCanvas extends Canvas {
                     if(j==0){
                         if(set)
                             break;
-                        direction = Direction.UP;
+                        direction = Direction.LEFT;
                         set = true;
                     }
 
                     if(i==gameProp.cells.length-1){
                         if(set)
                             break;
-                        direction = Direction.RIGHT;
+                        direction = Direction.DOWN;
                         set=true;
                     }
                     if(j==gameProp.cells[i].length-1){
                         if (set)
                             break;
-                        direction = Direction.DOWN;
+                        direction = Direction.RIGHT;
                         set=true;
                     }
 
@@ -154,7 +154,6 @@ public class LevelEditorCanvas extends Canvas {
                 break;
         }
         renderCanvas();
-
     }
 
     /**
