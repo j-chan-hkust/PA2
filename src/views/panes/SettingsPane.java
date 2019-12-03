@@ -94,7 +94,16 @@ public class SettingsPane extends GamePane {
      */
     @Override
     public void connectComponents() {
-        // TODO
+        // TODO done?
+
+        rowBox.setRight(rowsField);
+        colBox.setRight(colsField);
+        delayBox.setRight(delayField);
+        flowBox.setRight(flowField);
+        leftContainer.getChildren().addAll(returnButton,saveButton,rowBox,colBox,delayBox,flowBox,toggleSoundButton);
+        centerContainer.getChildren().add(infoText);
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer);
     }
 
     /**

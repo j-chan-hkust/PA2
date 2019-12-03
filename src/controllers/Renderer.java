@@ -85,6 +85,8 @@ public class Renderer {
      */
     public static void renderMap(@NotNull Canvas canvas, @NotNull Cell[][] map) {
         // TODO done
+        canvas.setWidth(map.length*TILE_SIZE);
+        canvas.setHeight(map[0].length*TILE_SIZE);
         for(int i = 0; i<map.length; i++){
             for(int j = 0; j<map[0].length;j++){
                 drawRotatedImage(canvas.getGraphicsContext2D(),

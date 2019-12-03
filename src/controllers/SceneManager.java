@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import views.panes.*;
 
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -64,12 +65,12 @@ public class SceneManager {
 
     private SceneManager() {
         // TODO: Add CSS styles to every scene done?????????
-        Iterator it = INSTANCE.scenes.entrySet().iterator();
+        Iterator it = this.scenes.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pair = (Map.Entry)it.next();
             var scene = (Scene) pair.getValue();
-            scene.getStylesheets().add(ResourceLoader.getResource("styles/styles.css"));
-            it.remove();
+            scene.getStylesheets().add(ResourceLoader.getResource("assets/styles/styles.css"));
+            //it.remove();
         }
     }
 

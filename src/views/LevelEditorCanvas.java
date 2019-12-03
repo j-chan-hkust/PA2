@@ -46,7 +46,6 @@ public class LevelEditorCanvas extends Canvas {
 
     public LevelEditorCanvas(int rows, int cols, int delay) {
         super();
-
         resetMap(rows, cols, delay);
     }
 
@@ -69,7 +68,19 @@ public class LevelEditorCanvas extends Canvas {
      * @param delay Amount of delay.
      */
     private void resetMap(int rows, int cols, int delay) {
-        // TODO
+        // TODO done
+        gameProp = new GameProperties(rows, cols);
+        for(int i = 0; i<gameProp.cells.length; i++){
+            for(int j = 0; j<gameProp.cells[i].length;j++){
+                if(i==0||j==0||i==gameProp.cells.length-1||j==gameProp.cells[i].length-1){
+                    gameProp.cells[i][j] = new Wall(new Coordinate(i,j));
+                }else{
+                    gameProp.cells[i][j] = new FillableCell(new Coordinate(i,j));
+                }
+            }
+        }
+        gameProp.delay = delay;
+        renderCanvas();
     }
 
     /**
@@ -90,7 +101,43 @@ public class LevelEditorCanvas extends Canvas {
      * @param y   Y-coordinate relative to the canvas.
      */
     public void setTile(@NotNull CellSelection sel, double x, double y) {
-        // TODO
+        // TODO done
+        int i = Math.round((float)x/TILE_SIZE);
+        int j = Math.round((float)y/TILE_SIZE);
+
+        switch(sel){
+            case WALL:
+                gameProp.cells[i][j] = new Wall(new Coordinate(i,j));
+                break;
+            case CELL:
+                gameProp.cells[i][j] = new FillableCell(new Coordinate(i,j));
+                break;
+            case TERMINATION_CELL:
+                if(i==0||j==0||i==gameProp.cells.length-1||j==gameProp.cells[i].length-1){//we are on the edge
+                    Direction direction = null;
+                    if(i==0&&direction==null)
+                        direction = Direction.UP;
+                    else
+                        break;
+                    if(j==0&&direction == null)
+                        direction = Direction.LEFT;
+                    else
+                        break;
+                    if(i==gameProp.cells.length-1&&direction ==null)
+                        direction = Direction.DOWN;
+                    else
+                        break;
+                    if(j==gameProp.cells[i].length-1&&direction==null)
+                        direction = Direction.RIGHT;
+
+                    sinkCell = new TerminationCell(new Coordinate(i,j),direction, TerminationCell.Type.SINK);
+                    gameProp.cells[i][j] = sinkCell;
+                }else{ //we a source cell!
+                    sourceCell = new TerminationCell(new Coordinate(i,j), Direction.UP, TerminationCell.Type.SOURCE);
+                    gameProp.cells[i][j] = sourceCell;
+                }
+                break;
+        }
     }
 
     /**
@@ -103,6 +150,7 @@ public class LevelEditorCanvas extends Canvas {
      */
     private void setTileByMapCoord(@NotNull Cell cell) {
         // TODO
+
     }
 
     /**
@@ -182,7 +230,13 @@ public class LevelEditorCanvas extends Canvas {
      * @param p Path to export to.
      */
     private void exportToFile(@NotNull Path p) {
-        // TODO
+        // TODO done
+        var s = new Serializer(p);
+
+        try{s.serializeGameProp(gameProp);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

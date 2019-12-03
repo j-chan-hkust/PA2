@@ -60,6 +60,14 @@ public class LevelEditorPane extends GamePane {
     @Override
     void connectComponents() {
         // TODO
+        rowBox.setRight(rowField);
+        colBox.setRight(colField);
+        delayBox.setRight(delayField);
+        leftContainer.getChildren().addAll(returnButton,rowBox,colBox,newGridButton,delayBox,selectedCell,toggleRotationButton,loadButton,saveButton);
+        centerContainer.getChildren().add(levelEditor);
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer);
+
     }
 
     /**

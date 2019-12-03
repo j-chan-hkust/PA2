@@ -54,7 +54,14 @@ public class GameplayPane extends GamePane {
      */
     @Override
     void connectComponents() {
-        // TODO
+        // TODO done
+        //topBar.getChildren().add(infoPane); ignore for now
+        bottomBar.getChildren().addAll(queueCanvas,quitToMenuButton);
+        canvasContainer.getChildren().add(gameplayCanvas);
+        this.setTop(topBar);
+        this.setCenter(canvasContainer);
+        this.setBottom(bottomBar);
+        //System.out.println("cool");
     }
 
     /**
@@ -71,6 +78,7 @@ public class GameplayPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
+        quitToMenuButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
     }
 
     /**
