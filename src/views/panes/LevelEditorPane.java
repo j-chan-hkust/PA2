@@ -60,6 +60,7 @@ public class LevelEditorPane extends GamePane {
     @Override
     void connectComponents() {
         // TODO
+        selectedCell.getItems().addAll(cellList);
         rowBox.setRight(rowField);
         colBox.setRight(colField);
         delayBox.setRight(delayField);
@@ -86,5 +87,12 @@ public class LevelEditorPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
+        newGridButton.setOnMouseClicked(mouseEvent ->
+                levelEditor.changeAttributes(rowField.getValue(),colField.getValue(),delayField.getValue()));
+        levelEditor.setOnMouseClicked(mouseEvent -> {
+            LevelEditorCanvas.CellSelection sel = selectedCell.getSelectionModel().getSelectedItem();
+            levelEditor.setTile(sel, mouseEvent.getX(),mouseEvent.getY());
+        });
+        toggleRotationButton.setOnMouseClicked(mouseEvent -> levelEditor.toggleSourceTileRotation());
     }
 }

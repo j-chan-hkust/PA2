@@ -1,5 +1,6 @@
 package models;
 
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.jetbrains.annotations.NotNull;
@@ -99,7 +100,21 @@ public class FlowTimer {
      * @param initialValue Initial delay value.
      */
     FlowTimer(int initialValue) {
-        // TODO
+        // TODO done?
+        currentValue.setValue(-initialValue);
+        registerTickCallback(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        ticksElapsed++;
+                        if(ticksElapsed%defaultFlowDuration == 4)
+                            currentValue.set(currentValue.intValue()+1);
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -130,13 +145,16 @@ public class FlowTimer {
      */
     void start() {
         // TODO
+        ticksElapsed = 0;
+        //for(int i = 0; i < ; Timer.scheduleAtFixedRate(,1000,1000);
     }
 
     /**
      * Stops the timer.
      */
     void stop() {
-        // TODO
+        // TODO done
+        flowTimer.cancel();
     }
 
     /**

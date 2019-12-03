@@ -102,8 +102,8 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void setTile(@NotNull CellSelection sel, double x, double y) {
         // TODO done
-        int i = Math.round((float)x/TILE_SIZE);
-        int j = Math.round((float)y/TILE_SIZE);
+        int i = (int) Math.floor(x/TILE_SIZE);
+        int j = (int) Math.floor(y/TILE_SIZE);
 
         switch(sel){
             case WALL:
@@ -115,20 +115,33 @@ public class LevelEditorCanvas extends Canvas {
             case TERMINATION_CELL:
                 if(i==0||j==0||i==gameProp.cells.length-1||j==gameProp.cells[i].length-1){//we are on the edge
                     Direction direction = null;
-                    if(i==0&&direction==null)
-                        direction = Direction.UP;
-                    else
-                        break;
-                    if(j==0&&direction == null)
+                    boolean set = false;
+
+                    if(i==0){
                         direction = Direction.LEFT;
-                    else
-                        break;
-                    if(i==gameProp.cells.length-1&&direction ==null)
-                        direction = Direction.DOWN;
-                    else
-                        break;
-                    if(j==gameProp.cells[i].length-1&&direction==null)
+                        set = true;
+                    }
+
+
+                    if(j==0){
+                        if(set)
+                            break;
+                        direction = Direction.UP;
+                        set = true;
+                    }
+
+                    if(i==gameProp.cells.length-1){
+                        if(set)
+                            break;
                         direction = Direction.RIGHT;
+                        set=true;
+                    }
+                    if(j==gameProp.cells[i].length-1){
+                        if (set)
+                            break;
+                        direction = Direction.DOWN;
+                        set=true;
+                    }
 
                     sinkCell = new TerminationCell(new Coordinate(i,j),direction, TerminationCell.Type.SINK);
                     gameProp.cells[i][j] = sinkCell;
@@ -138,6 +151,8 @@ public class LevelEditorCanvas extends Canvas {
                 }
                 break;
         }
+        renderCanvas();
+
     }
 
     /**
@@ -158,6 +173,28 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void toggleSourceTileRotation() {
         // TODO
+        Optional validity = checkValidity();
+        if(sourceCell!=null){//!validity.get().equals(MSG_MISSING_SOURCE)) {//it is valid
+            switch (sourceCell.pointingTo){
+                case UP:
+                    sourceCell = new TerminationCell(sourceCell.coord, Direction.RIGHT, TerminationCell.Type.SOURCE);
+                    gameProp.cells[sourceCell.coord.row][sourceCell.coord.col] = sourceCell;
+                    break;
+                case DOWN:
+                    sourceCell = new TerminationCell(sourceCell.coord, Direction.LEFT, TerminationCell.Type.SOURCE);
+                    gameProp.cells[sourceCell.coord.row][sourceCell.coord.col] = sourceCell;
+                    break;
+                case LEFT:
+                    sourceCell = new TerminationCell(sourceCell.coord, Direction.UP, TerminationCell.Type.SOURCE);
+                    gameProp.cells[sourceCell.coord.row][sourceCell.coord.col] = sourceCell;
+                    break;
+                case RIGHT:
+                    sourceCell = new TerminationCell(sourceCell.coord, Direction.DOWN, TerminationCell.Type.SOURCE);
+                    gameProp.cells[sourceCell.coord.row][sourceCell.coord.col] = sourceCell;
+                    break;
+            }
+            renderCanvas();
+        }
     }
 
     /**
@@ -255,8 +292,18 @@ public class LevelEditorCanvas extends Canvas {
      * @return {@link Optional} containing the error message, or an empty {@link Optional} if the map is valid.
      */
     private Optional<String> checkValidity() {
-        // TODO
-        return null;
+        // TODO missing point to walls
+        if(sourceCell==null){
+            return Optional.of(MSG_MISSING_SOURCE);
+        }
+        if(sinkCell==null)
+            return Optional.of(MSG_MISSING_SINK);
+        if(gameProp.rows<2||gameProp.cols<2)
+            return Optional.of(MSG_BAD_DIMS);
+        if(gameProp.delay<1)
+            return Optional.of(MSG_BAD_DELAY);
+
+        return Optional.empty();
     }
 
     public int getNumOfRows() {
