@@ -102,18 +102,13 @@ public class FlowTimer {
     FlowTimer(int initialValue) {
         // TODO done?
         currentValue.setValue(-initialValue);
-        registerTickCallback(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(new Runnable() {
+        registerTickCallback(new Runnable() {
                     @Override
                     public void run() {
                         ticksElapsed++;
                         if(ticksElapsed%defaultFlowDuration == 4)
                             currentValue.set(currentValue.intValue()+1);
                     }
-                });
-            }
         });
     }
 
@@ -146,7 +141,12 @@ public class FlowTimer {
     void start() {
         // TODO
         ticksElapsed = 0;
-        //for(int i = 0; i < ; Timer.scheduleAtFixedRate(,1000,1000);
+        flowTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                onTickCallbacks.forEach(Platform::runLater);
+            }
+        },1000,1000);
     }
 
     /**
