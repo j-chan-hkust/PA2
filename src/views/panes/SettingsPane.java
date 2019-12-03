@@ -95,7 +95,6 @@ public class SettingsPane extends GamePane {
     @Override
     public void connectComponents() {
         // TODO done?
-
         rowBox.setRight(rowsField);
         colBox.setRight(colsField);
         delayBox.setRight(delayField);
@@ -123,6 +122,15 @@ public class SettingsPane extends GamePane {
     @Override
     void setCallbacks() {
         // TODO
+        returnButton.setOnMouseClicked(mouseEvent -> returnToMainMenu(false));
+        saveButton.setOnMouseClicked(mouseEvent -> returnToMainMenu(true));
+        toggleSoundButton.setOnMouseClicked(mouseEvent -> {
+            AudioManager.getInstance().setEnabled(!AudioManager.getInstance().isEnabled());
+            if(AudioManager.getInstance().isEnabled()){
+                toggleSoundButton.setText("Sound FX: Enabled");
+            }else
+                toggleSoundButton.setText("Sound FX: Disabled");
+        });
     }
 
     /**
@@ -130,6 +138,10 @@ public class SettingsPane extends GamePane {
      */
     private void fillValues() {
         // TODO
+        FXGame.setDefaultRows(rowsField.getValue());
+        FXGame.setDefaultCols(colsField.getValue());
+        FlowTimer.setDefaultDelay(delayField.getValue());
+        FlowTimer.setDefaultFlowDuration(flowField.getValue());
     }
 
     /**
@@ -139,6 +151,18 @@ public class SettingsPane extends GamePane {
      */
     private void returnToMainMenu(final boolean writeback) {
         // TODO
+        if(writeback){
+            var validity = validate();
+            if(validity.isPresent()){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Settings not valid!");
+                errorAlert.setContentText(validity.get());
+                errorAlert.showAndWait();
+                return;
+            }
+            fillValues();
+        }
+        SceneManager.getInstance().showPane(MainMenuPane.class);
     }
 
     /**
@@ -159,6 +183,17 @@ public class SettingsPane extends GamePane {
     @NotNull
     private Optional<String> validate() {
         // TODO
-        return null;
+        if(delayField.getValue()<1){
+            return Optional.of(MSG_BAD_DELAY_NUM);
+        }
+        if (rowsField.getValue()<2){
+            return Optional.of(MSG_BAD_ROW_NUM);
+        }
+        if (colsField.getValue()<2){
+            return Optional.of(MSG_BAD_COL_NUM);
+        }
+        if(flowField.getValue()<1)
+            return Optional.of(MSG_BAD_FLOW_NUM);
+        return Optional.empty();
     }
 }
