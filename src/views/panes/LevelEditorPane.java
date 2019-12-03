@@ -86,7 +86,7 @@ public class LevelEditorPane extends GamePane {
      */
     @Override
     void setCallbacks() {
-        // TODO
+        // TODO done
         newGridButton.setOnMouseClicked(mouseEvent ->
                 levelEditor.changeAttributes(rowField.getValue(),colField.getValue(),delayField.getValue()));
         levelEditor.setOnMouseClicked(mouseEvent -> {
@@ -96,5 +96,6 @@ public class LevelEditorPane extends GamePane {
         toggleRotationButton.setOnMouseClicked(mouseEvent -> levelEditor.toggleSourceTileRotation());
         saveButton.setOnMouseClicked(mouseEvent -> levelEditor.saveToFile());
         loadButton.setOnMouseClicked(mouseEvent -> levelEditor.loadFromFile());
+        returnButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
     }
 }

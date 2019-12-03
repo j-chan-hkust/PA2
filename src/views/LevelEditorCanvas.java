@@ -123,15 +123,12 @@ public class LevelEditorCanvas extends Canvas {
                         direction = Direction.UP;
                         set = true;
                     }
-
-
                     if(j==0){
                         if(set)
                             break;
                         direction = Direction.LEFT;
                         set = true;
                     }
-
                     if(i==gameProp.cells.length-1){
                         if(set)
                             break;
@@ -350,8 +347,15 @@ public class LevelEditorCanvas extends Canvas {
             return Optional.of(MSG_BAD_DIMS);
         if(gameProp.delay<1)
             return Optional.of(MSG_BAD_DELAY);
+        if(gameProp.cells[sourceCell.pointingTo.getOpposite().getOffset().row+sourceCell.coord.row][sourceCell.pointingTo.getOpposite().getOffset().col+sourceCell.coord.col].getClass()==Wall.class){
+            return Optional.of(MSG_SOURCE_TO_WALL);
+        }
+        if(gameProp.cells[sinkCell.pointingTo.getOpposite().getOffset().row+sinkCell.coord.row][sinkCell.pointingTo.getOpposite().getOffset().col+sinkCell.coord.col].getClass()==Wall.class){
+            return Optional.of(MSG_SINK_TO_WALL);
+        }
 
         return Optional.empty();
+
     }
 
     public int getNumOfRows() {
