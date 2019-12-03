@@ -1,6 +1,7 @@
 package views;
 
 import controllers.Renderer;
+import controllers.SceneManager;
 import io.Deserializer;
 import io.GameProperties;
 import io.Serializer;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import util.Coordinate;
 import util.Direction;
+import views.panes.LevelEditorPane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -206,7 +208,18 @@ public class LevelEditorCanvas extends Canvas {
      */
     public boolean loadFromFile() {
         // TODO
-        return false;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Load map from file?");
+        alert.setContentText("Are you ok with this?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+            File file = getTargetLoadFile();
+            if(loadFromFile(file.toPath()))
+                renderCanvas();
+            return true;
+        }else
+            return false;
     }
 
     /**
@@ -220,7 +233,13 @@ public class LevelEditorCanvas extends Canvas {
     @Nullable
     private File getTargetLoadFile() {
         // TODO
-        return null;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load Map File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Map Files", "*.map")
+        );
+        File file = fileChooser.showOpenDialog(null);
+        return file;
     }
 
     /**
@@ -234,6 +253,12 @@ public class LevelEditorCanvas extends Canvas {
      */
     private boolean loadFromFile(@NotNull Path path) {
         // TODO
+        try{
+            Deserializer d = new Deserializer(path);
+            gameProp = d.parseGameFile();
+            return true;
+        }catch(FileNotFoundException e){e.printStackTrace();}
+
         return false;
     }
 
@@ -242,6 +267,24 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void saveToFile() {
         // TODO
+        var validity = checkValidity();
+        if(validity.isPresent()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Map not valid!");
+            errorAlert.setContentText(validity.get());
+            errorAlert.showAndWait();
+            return;
+        }
+        File file = getTargetSaveDirectory();
+
+        if(file!=null){
+            try{file.createNewFile();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+                exportToFile(file.toPath());
+        }
+
     }
 
     /**
@@ -254,8 +297,14 @@ public class LevelEditorCanvas extends Canvas {
      */
     @Nullable
     private File getTargetSaveDirectory() {
-        // TODO
-        return null;
+        // TODO done
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Map File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Map Files", "*.map")
+        );
+        File file = fileChooser.showSaveDialog(null);
+        return file;
     }
 
     /**

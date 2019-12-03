@@ -41,8 +41,10 @@ public class Serializer {
                 }
                 pw.println();
             }
-            for(var pipe:prop.pipes){
+            if(prop.pipes!=null){
+                for(var pipe:prop.pipes){
                 pw.print(pipe.toSerializedRep());
+                }
             }
             pw.println();
         }catch (IOException e){

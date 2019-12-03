@@ -94,5 +94,7 @@ public class LevelEditorPane extends GamePane {
             levelEditor.setTile(sel, mouseEvent.getX(),mouseEvent.getY());
         });
         toggleRotationButton.setOnMouseClicked(mouseEvent -> levelEditor.toggleSourceTileRotation());
+        saveButton.setOnMouseClicked(mouseEvent -> levelEditor.saveToFile());
+        loadButton.setOnMouseClicked(mouseEvent -> levelEditor.loadFromFile());
     }
 }
