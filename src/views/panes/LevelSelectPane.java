@@ -93,6 +93,7 @@ public class LevelSelectPane extends GamePane {
             try{
                 Deserializer d = new Deserializer(LevelManager.getInstance().getCurrentLevelPath());
                 ((GameplayPane)SceneManager.getInstance().getPane(GameplayPane.class)).startGame(d.parseFXGame());
+                SceneManager.getInstance().showPane(GameplayPane.class);
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }

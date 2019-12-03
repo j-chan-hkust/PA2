@@ -52,7 +52,7 @@ public class GameplayInfoPane extends BigVBox {
         // TODO done
         levelNameLabel.textProperty().bind(Bindings.createStringBinding(()->"Level: "+ levelNameProperty.get(),levelNameProperty));
         timerLabel.textProperty().bind(Bindings.createStringBinding(()-> "Time: " + format(timerProperty.get()),timerProperty));
-        numMovesLabel.textProperty().bind(Bindings.createStringBinding(()-> "Moves: " + format(numMovesProperty.get()),numMovesProperty));
-        numUndoLabel.textProperty().bind(Bindings.createStringBinding(()-> "Undos: " + format(numUndoProperty.get()),numUndoProperty));
+        numMovesLabel.textProperty().bind(Bindings.createStringBinding(()-> "Moves: " + numMovesProperty.get(),numMovesProperty));
+        numUndoLabel.textProperty().bind(Bindings.createStringBinding(()-> "Undos: " + numUndoProperty.get(),numUndoProperty));
     }
 }
