@@ -64,6 +64,7 @@ public class LevelSelectPane extends GamePane {
     void setCallbacks() {
         // TODO not done
         returnButton.setOnMouseClicked(mouseEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
+        playButton.setOnMouseClicked(mouseEvent -> startGame(false));
         playRandom.setOnMouseClicked(mouseEvent -> startGame(true));
         chooseMapDirButton.setOnMouseClicked(mouseEvent -> promptUserForMapDirectory());
         levelsListView.setOnMouseClicked(mouseEvent ->
@@ -88,6 +89,13 @@ public class LevelSelectPane extends GamePane {
             FXGame newGame = new FXGame(); //make a default
             ((GameplayPane)SceneManager.getInstance().getPane(GameplayPane.class)).startGame(newGame);
             SceneManager.getInstance().showPane(GameplayPane.class);
+        }else{
+            try{
+                Deserializer d = new Deserializer(LevelManager.getInstance().getCurrentLevelPath());
+                ((GameplayPane)SceneManager.getInstance().getPane(GameplayPane.class)).startGame(d.parseFXGame());
+            } catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -99,7 +107,7 @@ public class LevelSelectPane extends GamePane {
      * @param newValue   New value.
      */
     private void onMapSelected(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        // TODO
+        // TODO done
         System.out.println(newValue); //dum.map
         if(observable.getValue()==null){//we haven't set currentlevel
             LevelManager.getInstance().setLevel(newValue);

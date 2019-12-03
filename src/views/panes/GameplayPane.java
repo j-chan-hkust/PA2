@@ -2,6 +2,7 @@ package views.panes;
 
 import controllers.AudioManager;
 import controllers.LevelManager;
+import controllers.Renderer;
 import controllers.SceneManager;
 import io.Deserializer;
 import javafx.application.Platform;
@@ -140,6 +141,9 @@ public class GameplayPane extends GamePane {
      */
     void startGame(@NotNull FXGame game) {
         // TODO
+        game.renderMap(gameplayCanvas);
+        game.renderQueue(queueCanvas);
+
     }
 
     /**

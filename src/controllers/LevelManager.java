@@ -45,7 +45,7 @@ public class LevelManager {
      * Path to the map directory. Defaults to the current working directory.
      */
     @NotNull
-    private Path mapDirectory = Paths.get("");
+    private Path mapDirectory = Paths.get("resources/maps/");
 
     private LevelManager() {
         setMapDirectory(mapDirectory);

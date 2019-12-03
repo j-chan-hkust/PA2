@@ -105,6 +105,8 @@ public class Renderer {
      */
     public static void renderQueue(@NotNull Canvas canvas, @NotNull List<Pipe> pipeQueue) {
         // TODO done
+        canvas.setHeight(TILE_SIZE);
+        canvas.setWidth((TILE_SIZE+QUEUE_TILE_PADDING)*pipeQueue.size());
         for(int i = 0; i<pipeQueue.size(); i++){
             drawRotatedImage(canvas.getGraphicsContext2D(),
                     pipeQueue.get(i).getImageRep().image,
