@@ -438,8 +438,9 @@ public class Map {
      */
     public void fillAll() {
         // TODO done lol
+        sourceCell.setFilled();
         sinkCell.setFilled();
-        fillTiles(Integer.MAX_VALUE); //very lazy haha
+        fillTiles(20); //very lazy haha
     }
 
     /**

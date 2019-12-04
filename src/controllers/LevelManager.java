@@ -127,6 +127,10 @@ public class LevelManager {
      */
     public void setLevel(@Nullable String levelName) throws IllegalArgumentException{
         // TODO done
+        if(levelName==null){
+            curLevelNameProperty.set(null);
+            return;
+        }
         if (levelName.isBlank()){
             throw new IllegalStateException();
         }else {
@@ -155,10 +159,12 @@ public class LevelManager {
             setLevel(null);
             return null; //no map has been set, so there is no next map!
         }
+        levelNames.forEach(System.out::println);
+        System.out.println(getCurrentLevelProperty().toString());
 
-        if(INSTANCE.levelNames.contains(getCurrentLevelProperty().toString())){
+        if(levelNames.contains(getCurrentLevelProperty().get())){
             //if last element, and index too big
-            int currIndex = INSTANCE.levelNames.indexOf(getCurrentLevelProperty().toString());
+            int currIndex = INSTANCE.levelNames.indexOf(getCurrentLevelProperty().get());
             if(currIndex==INSTANCE.levelNames.size()-1){
                 setLevel(null);
                 return null; //there are no more indices to search!
@@ -166,10 +172,10 @@ public class LevelManager {
                 setLevel(INSTANCE.levelNames.get(currIndex+1));
                 return INSTANCE.levelNames.get(currIndex+1);
             }
-        } else {
-            setLevel(null);
-            return null;
         }
+
+        setLevel(null);
+        return null;
     }
 
     @NotNull

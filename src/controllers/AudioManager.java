@@ -4,6 +4,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -66,10 +67,12 @@ public class AudioManager {
      */
     private void playFile(final String name) {
         // TODO done
+
         if(!isEnabled()){
             return;
         }
-        Media sound = new Media(name);
+
+        Media sound = new Media("resources/assets/audio/"+name+".mp3");
         MediaPlayer mp = new MediaPlayer(sound);
         soundPool.add(mp);
         mp.setOnEndOfMedia(() -> soundPool.remove(mp));

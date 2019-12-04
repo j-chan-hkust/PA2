@@ -105,9 +105,20 @@ public class FlowTimer {
         registerTickCallback(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.println("time passing");
                         ticksElapsed++;
-                        if(ticksElapsed%defaultFlowDuration == 4)
+                        if(ticksElapsed<defaultDelay){
+                            currentValue.setValue(currentValue.intValue()+1);
+                            System.out.println(distance());
+
+                            return;
+                        }
+                        if(ticksElapsed%defaultFlowDuration == 0){
+                            System.out.println("flow passing");
                             currentValue.set(currentValue.intValue()+1);
+                            System.out.println(distance());
+
+                            onFlowCallbacks.forEach(Runnable::run);}
                     }
         });
     }
