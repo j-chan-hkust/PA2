@@ -29,7 +29,7 @@ public class FlowTimer {
      * Backing timer.
      */
     @NotNull
-    private final Timer flowTimer = new Timer(true);
+    private Timer flowTimer = new Timer(true);
 
     /**
      * Current value of the flow timer.
@@ -152,6 +152,16 @@ public class FlowTimer {
     void start() {
         // TODO
         ticksElapsed = 0;
+        flowTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                onTickCallbacks.forEach(Platform::runLater);
+            }
+        },1000,1000);
+    }
+
+    void resume(){
+        flowTimer = new Timer(true);
         flowTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

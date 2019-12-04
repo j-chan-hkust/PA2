@@ -139,6 +139,8 @@ public class FXGame {
         flowTimer.stop();
     }
 
+    public void restartCountdown(){flowTimer.resume();}
+
     /**
      * @param row Row index to place pipe
      * @param col Column index to place pipe
@@ -238,6 +240,8 @@ public class FXGame {
     public void fillAllPipes() {
         map.fillAll();
     }
+
+
 
     public IntegerProperty getNumOfSteps() {
         return numOfSteps;

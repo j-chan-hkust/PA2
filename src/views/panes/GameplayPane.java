@@ -39,11 +39,15 @@ public class GameplayPane extends GamePane {
     private HBox bottomBar = new HBox(20);
     private Canvas queueCanvas = new Canvas();
     private Button quitToMenuButton = new BigButton("Quit to menu");
+    private Button pauseButton = new BigButton("Pause");
 
     private FXGame game;
 
     private final IntegerProperty ticksElapsed = new SimpleIntegerProperty();
     private GameplayInfoPane infoPane = null;
+
+    private boolean paused;
+    private boolean L33T_H4XX0R = false; //have we used our sick hack?
 
     public GameplayPane() {
         connectComponents();
@@ -58,7 +62,7 @@ public class GameplayPane extends GamePane {
     void connectComponents() {
         // TODO done
         //topBar.getChildren().add(infoPane); ignore for now
-        bottomBar.getChildren().addAll(queueCanvas,quitToMenuButton);
+        bottomBar.getChildren().addAll(queueCanvas,quitToMenuButton,pauseButton);
         canvasContainer.getChildren().add(gameplayCanvas);
         this.setTop(topBar);
         this.setCenter(canvasContainer);
@@ -82,6 +86,24 @@ public class GameplayPane extends GamePane {
         quitToMenuButton.setOnMouseClicked(mouseEvent -> doQuitToMenuAction());
         gameplayCanvas.setOnMouseClicked(mouseEvent -> onCanvasClicked(mouseEvent));
         this.setOnKeyPressed(keyEvent -> onKeyPressed(keyEvent));
+        pauseButton.setOnMouseClicked(mouseEvent -> pauseHandler());
+    }
+
+    private void pauseHandler(){
+        if(paused){
+            paused = false;
+            pauseButton.setText("Pause");
+            gameplayCanvas.setOnMouseClicked(mouseEvent -> onCanvasClicked(mouseEvent));
+            this.setOnKeyPressed(keyEvent -> onKeyPressed(keyEvent));
+            game.restartCountdown();
+
+        }else{
+            paused = true;
+            pauseButton.setText("Resume");
+            gameplayCanvas.setOnMouseClicked(null);
+            this.setOnKeyPressed(null);
+            game.stopCountdown();
+        }
     }
 
     /**
@@ -244,6 +266,7 @@ public class GameplayPane extends GamePane {
             }
         });
         game.startCountdown();
+        paused = false;
     }
 
     /**
