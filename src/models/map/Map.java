@@ -501,4 +501,30 @@ public class Map {
     public boolean hasLost() {
         return prevFilledTiles == 0;
     }
+
+    public Pipe getPipeAt(int row, int col){
+
+        Cell cell=null;
+        try{
+            cell = cells[row][col];
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(cell==null)
+            return null;
+
+        if(cell.getClass() == FillableCell.class){
+            if(((FillableCell) cell).getPipe().isPresent()){
+                Pipe pipe = ((FillableCell) cell).getPipe().get();
+                return pipe;
+            }
+        }
+
+        return null;
+
+    }
+
+    public void remove(int row, int col){
+        cells[row][col] = new FillableCell(new Coordinate(row,col));
+    }
 }

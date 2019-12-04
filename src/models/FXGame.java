@@ -141,6 +141,15 @@ public class FXGame {
 
     public void restartCountdown(){flowTimer.resume();}
 
+    public Pipe getPipeAt(int row, int col){
+        return map.getPipeAt(row,col);
+    }
+
+    public void replacePipe(int row, int col, Pipe pipe){
+        map.remove(row,col);
+        map.tryPlacePipe(new Coordinate(row,col), pipe);
+    }
+
     /**
      * @param row Row index to place pipe
      * @param col Column index to place pipe

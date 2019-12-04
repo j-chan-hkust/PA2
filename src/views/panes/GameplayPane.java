@@ -8,22 +8,31 @@ import io.Deserializer;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.FXGame;
+import models.PipeQueue;
+import models.pipes.Pipe;
 import org.jetbrains.annotations.NotNull;
 import views.BigButton;
 import views.BigVBox;
 import views.GameplayInfoPane;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static models.Config.TILE_SIZE;
@@ -47,7 +56,7 @@ public class GameplayPane extends GamePane {
     private GameplayInfoPane infoPane = null;
 
     private boolean paused;
-    private boolean L33T_H4XX0R = false; //have we used our sick hack?
+    private boolean L33T_H4XX0R_UNUSED = true; //have we used our sick hack?
 
     public GameplayPane() {
         connectComponents();
@@ -115,6 +124,37 @@ public class GameplayPane extends GamePane {
         // TODO
         int j = (int) Math.floor(event.getX()/TILE_SIZE);
         int i = (int) Math.floor(event.getY()/TILE_SIZE);
+
+        var pipe = game.getPipeAt(i,j);
+        if(pipe!=null) {
+            if (!pipe.getFilled()) {
+                if(L33T_H4XX0R_UNUSED) {
+                    pauseHandler();
+                    final Stage dialog = new Stage();
+                    dialog.initModality(Modality.APPLICATION_MODAL);
+                    dialog.initOwner(null);
+                    HBox dialogHbox = new HBox(20);
+                    List<Pipe.Shape> shapeList = Arrays.asList(Pipe.Shape.values());
+                    List<Pipe> pipes = new ArrayList<Pipe>();
+                    shapeList.forEach(shape -> pipes.add(new Pipe(shape)));
+                    PipeQueue pipeQueue = new PipeQueue(pipes);
+                    Canvas displayCanvas = new Canvas();
+                    pipeQueue.render(displayCanvas);
+                    dialogHbox.getChildren().add(displayCanvas);
+                    Scene dialogScene = new Scene(dialogHbox, (TILE_SIZE + 8) * 7, (TILE_SIZE + 8));
+                    displayCanvas.setOnMouseClicked(mouseEvent -> {
+                        int x = (int) Math.floor(mouseEvent.getX() / (TILE_SIZE + 8));
+                        game.replacePipe(i, j, pipes.get(x));
+                        pauseHandler();
+                        game.renderMap(gameplayCanvas);
+                        dialog.close();
+                    });
+                    dialog.setScene(dialogScene);
+                    dialog.show();
+                    L33T_H4XX0R_UNUSED = false;
+                }
+            }
+        }
 
         game.placePipe(i,j);
         if(game.hasWon()){
