@@ -78,29 +78,59 @@ public class TerminationCell extends Cell {
     @Override
     public Renderer.CellImage getImageRep() {
         // TODO done, need to check if accurate
-        switch (pointingTo) {
-            case UP:
-                if(isFilled)
-                    return new Renderer.CellImage(FILLED_IMG, 180);
-                else
-                    return new Renderer.CellImage(UNFILLED_IMG,180);
-            case DOWN:
-                if(isFilled)
-                    return new Renderer.CellImage(FILLED_IMG, 0);
-                else
-                    return new Renderer.CellImage(UNFILLED_IMG,0);
-            case LEFT:
-                if(isFilled)
-                    return new Renderer.CellImage(FILLED_IMG, 90);
-                else
-                    return new Renderer.CellImage(UNFILLED_IMG,90);
-            case RIGHT:
-                if(isFilled)
-                    return new Renderer.CellImage(FILLED_IMG, -90);
-                else
-                    return new Renderer.CellImage(UNFILLED_IMG,-90);
+        switch(type){
+            case SOURCE:
+                switch (pointingTo) {
+                    case UP:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, 0);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,0);
+                    case DOWN:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, 180);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,180);
+                    case LEFT:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, -90);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,-90);
+                    case RIGHT:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, 90);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,90);
+                    default:
+                        throw new IllegalStateException("Unknown pointingTo value");
+                }
+            case SINK:
+                switch (pointingTo) {
+                    case UP:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, 180);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,180);
+                    case DOWN:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, 0);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,0);
+                    case LEFT:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, 90);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,90);
+                    case RIGHT:
+                        if(isFilled)
+                            return new Renderer.CellImage(FILLED_IMG, -90);
+                        else
+                            return new Renderer.CellImage(UNFILLED_IMG,-90);
+                    default:
+                        throw new IllegalStateException("Unknown pointingTo value");
+                }
             default:
-                throw new IllegalStateException("Unknown pointingTo value");
+                throw new IllegalStateException("Unknown Type value");
         }
     }
 
