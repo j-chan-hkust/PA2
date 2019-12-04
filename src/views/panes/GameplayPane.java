@@ -181,8 +181,8 @@ public class GameplayPane extends GamePane {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setHeaderText("You Lose!");
         errorAlert.setContentText("go back to menu");
-        errorAlert.showAndWait();
         errorAlert.setOnCloseRequest(dialogEvent -> doQuitToMenu());
+        errorAlert.showAndWait();
     }
 
     /**
