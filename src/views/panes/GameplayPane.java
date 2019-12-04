@@ -307,6 +307,7 @@ public class GameplayPane extends GamePane {
         });
         game.startCountdown();
         paused = false;
+        L33T_H4XX0R_UNUSED = true;
     }
 
     /**

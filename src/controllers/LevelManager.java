@@ -86,7 +86,7 @@ public class LevelManager {
     private void loadLevelNamesFromDisk() {
         // TODO done?
         levelNames.clear();
-        try(Stream<Path> walk = Files.walk(this.mapDirectory, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)){
+        try(Stream<Path> walk = Files.walk(this.mapDirectory, 1, FileVisitOption.FOLLOW_LINKS)){
             //filter
             //map
             //sort

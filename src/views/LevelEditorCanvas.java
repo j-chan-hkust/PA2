@@ -82,6 +82,8 @@ public class LevelEditorCanvas extends Canvas {
             }
         }
         gameProp.delay = delay;
+        sourceCell = null;
+        sinkCell = null;
         renderCanvas();
     }
 
@@ -110,9 +112,29 @@ public class LevelEditorCanvas extends Canvas {
         switch(sel){
             case WALL:
                 gameProp.cells[i][j] = new Wall(new Coordinate(i,j));
+                if(sinkCell!=null) {
+                    if (sinkCell.coord.equals(new Coordinate(i, j))) {
+                        sinkCell = null;
+                    }
+                }
+                if(sourceCell!=null) {
+                    if (sourceCell.coord.equals(new Coordinate(i, j))) {
+                        sourceCell = null;
+                    }
+                }
                 break;
             case CELL:
                 gameProp.cells[i][j] = new FillableCell(new Coordinate(i,j));
+                if(sinkCell!=null) {
+                if (sinkCell.coord.equals(new Coordinate(i, j))) {
+                    sinkCell = null;
+                }
+            }
+            if(sourceCell!=null) {
+                if (sourceCell.coord.equals(new Coordinate(i, j))) {
+                    sourceCell = null;
+                }
+            }
                 break;
             case TERMINATION_CELL:
                 if(i==0||j==0||i==gameProp.cells.length-1||j==gameProp.cells[i].length-1){//we are on the edge
@@ -347,7 +369,7 @@ public class LevelEditorCanvas extends Canvas {
             return Optional.of(MSG_BAD_DIMS);
         if(gameProp.delay<1)
             return Optional.of(MSG_BAD_DELAY);
-        if(gameProp.cells[sourceCell.pointingTo.getOpposite().getOffset().row+sourceCell.coord.row][sourceCell.pointingTo.getOpposite().getOffset().col+sourceCell.coord.col].getClass()==Wall.class){
+        if(gameProp.cells[sourceCell.pointingTo.getOffset().row+sourceCell.coord.row][sourceCell.pointingTo.getOffset().col+sourceCell.coord.col].getClass()==Wall.class){
             return Optional.of(MSG_SOURCE_TO_WALL);
         }
         if(gameProp.cells[sinkCell.pointingTo.getOpposite().getOffset().row+sinkCell.coord.row][sinkCell.pointingTo.getOpposite().getOffset().col+sinkCell.coord.col].getClass()==Wall.class){
